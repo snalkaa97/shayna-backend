@@ -121,4 +121,17 @@ class ProductController extends Controller
 
         return redirect()->route($this->route.'.index');
     }
+
+    public function gallery(Request $request, $id)
+    {
+        $product = Product::findorFail($id);
+        $items = ProductGallery::with('product')
+            ->where('products_id', $id)
+            ->get();
+
+        return view($this->route.'.gallery')->with([
+            'product' => $product,
+            'items' => $items
+        ]);
+    }
 }
