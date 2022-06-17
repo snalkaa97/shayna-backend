@@ -13,7 +13,7 @@ class CheckoutRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class CheckoutRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255',
+            'number' => 'required|max:255',
+            'address' => 'required',
+            'transaction_total' => 'required|integer',
+            'transaction_status' => 'nullable|string|in:PENDING,SUCCESS,FAILED',
+            'transaction_details' => 'required|array',
+            'transaction_details.*' => 'integer|exists:products,id',
         ];
-    }
-}
+    }}

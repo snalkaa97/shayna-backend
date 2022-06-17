@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +20,14 @@ use App\Http\Controllers\DashboardController;
 Auth::routes(['register' => false]);
 Route::middleware('auth')->group(function () {
     Route::get('/',[DashboardController::class, 'index'])->name('dashboard');
+    Route::prefix('pages')->group(function () {
+        Route::controller(ProductController::class)->group(function(){
+            Route::resource('/products', ProductController::class);
+        });
+    });
 });
 
 // Route::prefix('admin')->group(function () {
 //     Route::get('/users',
 // });
-Route::prefix('admin')->group(function () {
-    Route::controller(OrderController::class)->group(function () {
-        Route::get('/orders', 'index');
-        Route::post('/orders', 'store');
-    });
-});
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
