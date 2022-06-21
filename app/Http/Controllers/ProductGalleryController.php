@@ -59,7 +59,7 @@ class ProductGalleryController extends Controller
         );
 
         ProductGallery::create($data);
-        return redirect()->route($this->route.'.index');
+        return redirect()->route('product-galleries.index');
     }
 
     /**
@@ -108,6 +108,6 @@ class ProductGalleryController extends Controller
         $item = ProductGallery::findOrFail($id);
         $item->delete();
 
-        return redirect()->route($this->route.'.index');
+        return redirect()->route('product-galleries.index');
     }
 }

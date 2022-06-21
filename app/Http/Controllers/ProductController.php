@@ -56,7 +56,7 @@ class ProductController extends Controller
         $data['slug'] = Str::slug($request->name);
 
         Product::create($data);
-        return redirect()->route($this->route.'.index');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -102,7 +102,7 @@ class ProductController extends Controller
         $item = Product::findOrFail($id);
         $item->update($data);
 
-        return redirect()->route($this->route.'.index');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -119,7 +119,7 @@ class ProductController extends Controller
 
         ProductGallery::where('products_id', $id)->delete();
 
-        return redirect()->route($this->route.'.index');
+        return redirect()->route('products.index');
     }
 
     public function gallery(Request $request, $id)
