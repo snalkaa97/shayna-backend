@@ -56,7 +56,6 @@ class AuthController extends Controller
     // method for user logout and delete token
     public function logout()
     {
-        dd('masuk');
         auth()->user()->tokens()->delete();
 
         return [
