@@ -50,7 +50,18 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['message' => 'Hi '.$user->name.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ]);
+            ->json(['message' => 'Hi '.$user->name.', welcome to home','access_token' => $token, 'token_type' => 'Bearer',
+            'user' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                'email_verified_at' => null,
+                'first_name' => $user->name,
+                'last_name' => null,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
+                'api_token' => $token
+            ] 
+        ]);
     }
 
     // method for user logout and delete token
@@ -58,8 +69,25 @@ class AuthController extends Controller
     {
         auth()->user()->tokens()->delete();
 
-        return [
+        return response()->json([
+            'logout' => true,
             'message' => 'You have successfully logged out and the token was successfully deleted'
-        ];
+        ]);
+    }
+
+    public function verify_token(Request $request){
+        return response()
+            ->json([
+            'user' => [
+                'id' => auth()->user()->id,
+                'email' => auth()->user()->email,
+                'email_verified_at' => null,
+                'first_name' => auth()->user()->name,
+                'last_name' => null,
+                'created_at' => auth()->user()->created_at,
+                'updated_at' => auth()->user()->updated_at,
+                'api_token' => $request->bearerToken()
+            ] 
+        ]);
     }
 }

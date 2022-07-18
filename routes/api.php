@@ -23,6 +23,7 @@ Route::group(['middleware'=> ['auth:sanctum']], function(){
         return auth()->user();
     });
     Route::post('/logout',[AuthController::class, 'logout']);
+    Route::post('/verify_token',[AuthController::class, 'verify_token']);
 });
 Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login',[AuthController::class, 'login']);
