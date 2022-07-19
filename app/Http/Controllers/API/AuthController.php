@@ -27,6 +27,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
          ]);
@@ -34,7 +35,18 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['data' => $user,'access_token' => $token, 'token_type' => 'Bearer', ]);
+            ->json(['data' => $user,'access_token' => $token, 'token_type' => 'Bearer', 
+                'user' => [
+                    'id' => $user->id,
+                    'email' => $user->email,
+                    'email_verified_at' => null,
+                    'first_name' => $user->name,
+                    'last_name' => $user->last_name,
+                    'created_at' => $user->created_at,
+                    'updated_at' => $user->updated_at,
+                    'api_token' => $token
+                ]
+            ]);
     }
 
     public function login(Request $request)
@@ -56,7 +68,7 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'email_verified_at' => null,
                 'first_name' => $user->name,
-                'last_name' => null,
+                'last_name' => $user->last_name,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
                 'api_token' => $token

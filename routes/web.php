@@ -24,8 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/',[DashboardController::class, 'index'])->name('dashboard');
     Route::prefix('pages')->group(function () {
         Route::controller(ProductController::class)->group(function(){
-            Route::resource('/products', ProductController::class);
             Route::get('products/{id}/gallery', [ProductController::class, 'gallery'])->name('products.gallery');
+            Route::resource('/products', ProductController::class);
         });
         Route::controller(ProductGalleryController::class)->group(function(){
             Route::resource('/product-galleries', ProductGalleryController::class);
